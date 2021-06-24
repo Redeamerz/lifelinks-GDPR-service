@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: gdprservice
+  namespace: lifelinks
+  labels:
+    app: gdprservice
+    tags.datadoghq.com/env: prod
+    tags.datadoghq.com/version: "1"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gdprservice
+  template:
+    metadata:
+      labels:
+        app: gdprservice
+    spec:
+      containers:
+        - name: gdprservice
+          image: docker.io/redeamerz/lifelinks-gdprservice
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600

@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using GDPR_Service.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,42 +14,21 @@ namespace GDPR_Service.Controllers
 	{
 		private readonly ProducerConfig config = new ProducerConfig
 		{
-			BootstrapServers = "localhost:9092"
+			BootstrapServers = "kafka.lifelinks.svc.cluster.local"
 		};
 
-		private readonly string topic = "gdpr_topic";
-
-		// GET: api/<GDPRController>
+		// GET api/<GDPRController>
 		[HttpGet]
-		public IEnumerable<string> Get()
+		public IActionResult Get([FromBody] KafkaRequest request)
 		{
-			return new string[] { "value1", "value2" };
-		}
-
-		// GET api/<GDPRController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
-		{
-			return "value";
+			return Created(string.Empty, SendToKafka(request.topic, request.message));
 		}
 
 		// POST api/<GDPRController>
 		[HttpPost]
-		public IActionResult Post([FromQuery] string message)
+		public IActionResult Post([FromBody] KafkaRequest request)
 		{
-			return Created(string.Empty, SendToKafka(topic, message));
-		}
-
-		// PUT api/<GDPRController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<GDPRController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
+			return Created(string.Empty, SendToKafka(request.topic, request.message));
 		}
 
 		private Object SendToKafka(string topic, string message)

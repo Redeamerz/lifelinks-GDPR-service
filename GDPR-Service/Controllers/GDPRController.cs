@@ -14,7 +14,7 @@ namespace GDPR_Service.Controllers
 	{
 		private readonly ProducerConfig config = new ProducerConfig
 		{
-			BootstrapServers = "kafka.lifelinks.svc.cluster.local"
+			BootstrapServers = "kafka"
 		};
 
 		// GET api/<GDPRController>

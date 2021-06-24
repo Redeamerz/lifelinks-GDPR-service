@@ -6,7 +6,7 @@ metadata:
   labels:
     app: gdprservice
     tags.datadoghq.com/env: prod
-    tags.datadoghq.com/version: "1"
+    tags.datadoghq.com/version: "1.1"
 spec:
   replicas: 2
   selector:
